@@ -18,7 +18,10 @@ koaApp.use(koaStatic(pathConfig.staticPath));
 // 监听app下的文件改变
 bs.watch(pathConfig.appPath).on('change',function(){
 	// webpack成功后刷新页面
-	webpack(wpConfig,function(){
+	webpack(wpConfig,function(err,stats){
+		if(err || stats.hasErrors()){
+			console.log(stats.toString());
+		}
 		bs.reload();
 	});
 });
@@ -32,5 +35,10 @@ middlewares.push(function*(){
 });
 koaMW.registerMiddlewares(koaApp,middlewares);
 bs.init({proxy:'http://localhost:'+port},function(){
+	webpack(wpConfig,function(err,stats){
+		if(err || stats.hasErrors()){
+			console.log(stats.toString());
+		}
+	});
 	koaApp.listen(port);	
 });
