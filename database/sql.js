@@ -7,27 +7,50 @@ var config = require('./db-config.js');
 var pool = mysql.createPool(config);
 
 function sql(queryString,next){
-	var result = true;
-	pool.getConnection(function(err,connection){	
+	pool.getConnection(function(err,connection){
 		if(err){
-			console.error('error connecting:'+err.stack);
-			result = false;
+			console.error('fail to connect to database ');
+			next(err);
 			return;
 		}
-		console.log('connect successfully');
 		connection.query(queryString,function(err,rows){
+			connection.release(function(err){
+				if(err){
+					console.error('fail to release connection');
+				}
+			});
 			if(err){
-				console.error('sql query execute error:'+err.stack);
-				result = false;
+				console.error('query failed:'+err);
+				next(err);
 				return;
 			}
-			console.log('sql query execute successfully');
-			next(rows);
-		});	
+			next(null,rows);
+		});
 	});
-	return result;
+}
+
+// 执行查询语句
+function doSql(queryString){
+	return new Promise(function(resolve,reject){
+		sql(queryString,function(err,rows){
+			if(err){
+				reject(err);
+			}
+			else{
+				resolve(rows);
+			}
+		});
+	});
+}
+// 关闭连接池
+function closePool(time){
+    setTimeout(function(){
+        pool.end();
+    },time*1000);
 }
 
 module.exports = {
-	sql : sql
+	doSql : doSql,
+    closePool : closePool
 };
+

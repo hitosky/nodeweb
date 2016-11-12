@@ -7,11 +7,10 @@ var fs = require('fs');
 
 var route = require('../route.js');
 function renderHtml(path,data){
-	path=path.replace(/^\/*/,'/').replace(/\/*$/,'').replace(/\/+/g,'/').replace(/\./g,'');
 	var html = '<h1>404 not found</h1>';
 	if(route[path]){ 
 		try{
-			var str = fs.readFileSync(route[path],'utf8');
+			var str = fs.readFileSync(route[path]['url'],'utf8');
 			html = ejs.render(str,data);
 		}
 		catch(e){
