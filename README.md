@@ -1,3 +1,3 @@
 # nodeweb
 
-采用webpack+nodejs(koa)+mysql搭建的基础web服务器框架
+采用webpack2+nodejs(koa2)+mysql搭建的基础web服务器框架
