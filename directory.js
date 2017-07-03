@@ -7,6 +7,7 @@ module.exports = {
 	projectPath : projectPath,  // 项目根目录
 	appPath : path.join(projectPath,'app'),  // 应用目录
 	serverPath : path.join(projectPath,'server'),  // 后台目录
+	mockPath: path.join(projectPath,'mock'),
 	buildPath : path.join(projectPath,'build'),   // 静态资源目录
 	configPath : path.join(projectPath,'config'),    // 配置目录
 	urlPath : path.join(projectPath,'app/pages'),    // 页面url路径

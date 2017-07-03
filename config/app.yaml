@@ -1,0 +1,13 @@
+server:
+    ip: 'localhost'
+    devIp: 'localhost'
+    port: 8888
+    devPort : 9999
+    debugPort: 7005
+
+
+
+baseURI: "/"
+# 系统的appCode
+appCode: "NODEWEB"
+
